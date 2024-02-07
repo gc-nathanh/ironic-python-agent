@@ -395,12 +395,12 @@ def find_esp_raid():
     """Find the ESP md device in case of a rebuild."""
 
     # find devices of type 'RAID1' and fstype 'VFAT'
-    lsblk = utils.execute('lsblk', '-PbioNAME,TYPE,FSTYPE')
+    lsblk = utils.execute('lsblk', '-PbioNAME,TYPE,FSTYPE,SIZE')
     report = lsblk[0]
     for line in report.split('\n'):
         dev = {}
         vals = shlex.split(line)
         for key, val in (v.split('=', 1) for v in vals):
             dev[key] = val.strip()
-        if dev.get('TYPE') == 'raid1' and dev.get('FSTYPE') == 'vfat':
+        if dev.get('TYPE') == 'raid1' and dev.get('SIZE') <= '1000000000':
             return '/dev/' + dev.get('NAME')
