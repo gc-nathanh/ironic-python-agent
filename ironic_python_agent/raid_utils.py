@@ -402,5 +402,5 @@ def find_esp_raid():
         vals = shlex.split(line)
         for key, val in (v.split('=', 1) for v in vals):
             dev[key] = val.strip()
-        if dev.get('TYPE') == 'raid1' and dev.get('SIZE') <= '1000000000':
+        if dev.get('TYPE') == 'raid1' and dev.get('SIZE') <= '943718400':
             return '/dev/' + dev.get('NAME')
